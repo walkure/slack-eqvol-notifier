@@ -277,8 +277,9 @@ function loadIntensity(message,object)
 // asyncなhttp.get
 function httpGetAsync(uri,encoding='utf8')
 {
+	const client = uri.startsWith('https:') ? https : http;
 	return new Promise((resolve, reject) => {
-		http.get(uri,(res) => {
+		client.get(uri,(res) => {
 			if (res.statusCode < 200 || res.statusCode >= 300) {
 				reject(new Error('statusCode=' + res.statusCode));
 				return;
