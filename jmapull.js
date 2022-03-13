@@ -1,7 +1,7 @@
 'use strict';
 
 const util = require('util');
-const http = require('http');
+const https = require('https');
 const url = require('url');
 const fs = require('fs');
 const config = require('config');
@@ -23,7 +23,6 @@ console.log('Slack error : ' + slackInfo.error.webhook + ' at ' + slackInfo.erro
 cron.schedule('21 * * * * *', async () =>{await fetchFeedAsync()});
 
 async function fetchFeedAsync() {
-	
 	let lastModified,currentLastEntries;
 	
 	try{
@@ -40,7 +39,7 @@ async function fetchFeedAsync() {
 	
 	let data,body;
 	try{
-		const result = await httpGetAsync('http://www.data.jma.go.jp/developer/xml/feed/eqvol.xml', lastModified);
+		const result = await httpsGetAsync('https://www.data.jma.go.jp/developer/xml/feed/eqvol.xml', lastModified);
 		if(result.data === null){
 			// no data.
 			return;
@@ -95,7 +94,7 @@ function filterFeedEntries(data, currentLastEntries) {
 	return newLastEntries;
 }
 
-function httpGetAsync(uri,ifModifiedSince) {
+function httpsGetAsync(uri,ifModifiedSince) {
 	return new Promise((resolve, reject) => {
 		const options = url.parse(uri);
 		
@@ -106,7 +105,7 @@ function httpGetAsync(uri,ifModifiedSince) {
 		}
 		options.method='GET';
 		
-		const req = http.request(options,(res) => {
+		const req = https.request(options,(res) => {
 			
 			if(res.statusCode == 304){
 				resolve({
