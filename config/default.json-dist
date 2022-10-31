@@ -1,10 +1,8 @@
 {
 	"Slack": {
-		"notify": {
-			"webhook": "通知用Webhook URI",
-		},
-		"error": {
-			"webhook": "エラー出力先Webhook URI",
-		}
+		"notify": [
+			"通知用Webhook URI"
+		],
+		"error": "エラー出力先Webhook URI"
 	}
 }

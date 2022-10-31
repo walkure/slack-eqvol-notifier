@@ -23,18 +23,20 @@ function processXmlAsync(uri, slackInfo){
 
 		if(message){
 			console.log(JSON.stringify(message));
-			try{
-				const response = await httpsPostAsync(message.webhook ,message);
-				resolve(response);
-			}catch(error){
-				if(error instanceof Error){
-					console.log('http posting error:%s\n%s',error.message,error.stack);
-				}else{
-					console.log('http posting error:%s',error);
+				const result = Promise.all(message.webhooks.map(async webhook =>{
+				try{
+					const response = await httpsPostAsync(webhook ,message);
+					return response;
+				}catch(error){
+					if(error instanceof Error){
+						console.log('http posting error:%s\n%s',error.message,error.stack);
+					}else{
+						console.log('http posting error:%s',error);
+					}
+					return null;
 				}
-				
-				resolve(null);
-			}
+			}));
+			resolve(result);
 			
 		}else{
 			console.log('deprecaetd');
@@ -57,7 +59,7 @@ function loadXmlAsync(uri, slackInfo){
 			}else{
 				message = {'text' : util.format('cannot load XML "%s"\n%s',uri,error)};
 			}
-			message.webhook = slackInfo.error.webhook;
+			message.webhooks = [slackInfo.error];
 			resolve(message);
 			return;
 		}
@@ -66,7 +68,7 @@ function loadXmlAsync(uri, slackInfo){
 			xmlobj = await xmlparseAsync(body, {trim: true, explicitArray: false });
 			message = processObject(xmlobj);
 			if(message){
-				message.webhook = slackInfo.notify.webhook;
+				message.webhooks = slackInfo.notify;
 			}
 		}catch(error){
 			const dump = util.inspect(xmlobj,{ showHidden: true, depth: null });
@@ -75,7 +77,7 @@ function loadXmlAsync(uri, slackInfo){
 			}else{
 				message = {'text' : util.format('cannot parse XML "%s"\n%s\n%s',uri,error,dump)};
 			}
-			message.webhook = slackInfo.error.webhook;
+			message.webhooks = [slackInfo.error];
 		}
 		resolve(message);
 	});
