@@ -58,7 +58,6 @@ function loadXmlAsync(uri, slackInfo){
 				message = {'text' : util.format('cannot load XML "%s"\n%s',uri,error)};
 			}
 			message.webhook = slackInfo.error.webhook;
-			message.channel = slackInfo.error.channel;
 			resolve(message);
 			return;
 		}
@@ -68,7 +67,6 @@ function loadXmlAsync(uri, slackInfo){
 			message = processObject(xmlobj);
 			if(message){
 				message.webhook = slackInfo.notify.webhook;
-				message.channel = slackInfo.notify.channel;
 			}
 		}catch(error){
 			const dump = util.inspect(xmlobj,{ showHidden: true, depth: null });
@@ -78,7 +76,6 @@ function loadXmlAsync(uri, slackInfo){
 				message = {'text' : util.format('cannot parse XML "%s"\n%s\n%s',uri,error,dump)};
 			}
 			message.webhook = slackInfo.error.webhook;
-			message.channel = slackInfo.error.channel;
 		}
 		resolve(message);
 	});

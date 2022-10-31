@@ -2,11 +2,9 @@
 	"Slack": {
 		"notify": {
 			"webhook": "通知用Webhook URI",
-			"channel": "通知channel"
 		},
 		"error": {
 			"webhook": "エラー出力先Webhook URI",
-			"channel": "エラー出力channel"
 		}
 	}
 }
