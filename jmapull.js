@@ -17,6 +17,9 @@ const stateCacheFile = './state.json';
 
 const slackInfo = config.Slack;
 
+console.log('Slack notify: ' + slackInfo.notify);
+console.log('Slack error : ' + slackInfo.error);
+
 process.on('SIGTERM', () => {
 	console.log('SIGTERMed. ');
 	process.exit(1);
