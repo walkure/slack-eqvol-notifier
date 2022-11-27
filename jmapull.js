@@ -17,8 +17,14 @@ const stateCacheFile = './state.json';
 
 const slackInfo = config.Slack;
 
-console.log('Slack notify: ' + slackInfo.notify.webhook);
-console.log('Slack error : ' + slackInfo.error.webhook);
+process.on('SIGTERM', () => {
+	console.log('SIGTERMed. ');
+	process.exit(1);
+});
+process.on('SIGINT', () => {
+	console.log('SIGINTed. ');
+	process.exit(1);
+});
 
 cron.schedule('21 * * * * *', async () =>{await fetchFeedAsync()});
 
