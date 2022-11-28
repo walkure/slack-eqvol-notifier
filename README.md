@@ -30,6 +30,12 @@ node.js の勉強がてら書いてみました。
 - 起動
 	- ` node ./jmapull.js `
 
+## Dockerでの起動
+
+`docker run -it --rm --mount type=bind,source=/usr/local/slack-eqvol-notifier/config,target=/config,readonly ghcr.io/walkure/slack-eqvol-notifier:1.0.0`
+
+`NODE_ENV=production`で起動するので、設定ファイルは`production.json`を読みます。
+
 # Author
 walkure at 3pf.jp
 
