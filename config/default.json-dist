@@ -1,4 +1,5 @@
 {
+	"State" : "ステートファイルのパス(任意)",
 	"Slack": {
 		"notify": [
 			"通知用Webhook URI"

@@ -13,7 +13,7 @@ const xmlparseAsync = util.promisify(require('xml2js').parseString);
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
-const stateCacheFile = './state.json';
+const stateCacheFile = 'State' in config ? config.State : './state.json' ;
 
 const slackInfo = config.Slack;
 
